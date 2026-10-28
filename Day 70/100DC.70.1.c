@@ -1,6 +1,15 @@
-// Convert an input string to sentence case (capitalize the first letter of each sentence/word).
+// Q120: Write a program to take a string input. Change it to sentence case.
+
+/*
+Sample Test Cases:
+Input 1:
+I am trying to build logic.
+Output 1:
+I Am Trying To Build Logic.
+
+*/
+
 #include <stdio.h>
-#include <ctype.h>
 
 int main() {
     char str[1000];
@@ -9,16 +18,26 @@ int main() {
 
     int capNext = 1;
     for (int i = 0; str[i] != '\0'; i++) {
-        if (capNext && isalpha((unsigned char)str[i])) {
-            str[i] = toupper((unsigned char)str[i]);
+        char ch = str[i];
+        int isLower = (ch >= 'a' && ch <= 'z');
+        int isUpper = (ch >= 'A' && ch <= 'Z');
+
+        if (capNext && (isLower || isUpper)) {
+            if (isLower) {
+                str[i] = ch - 32;
+            }
             capNext = 0;
         } else {
-            str[i] = tolower((unsigned char)str[i]);
+            if (isUpper) {
+                str[i] = ch + 32;
+            }
         }
-        if (str[i] == '.' || str[i] == '!' || str[i] == '?' || str[i] == ' ') {
+
+        if (ch == ' ' || ch == '.' || ch == '!' || ch == '?') {
             capNext = 1;
         }
     }
+
     printf("%s\n", str);
     return 0;
 }
